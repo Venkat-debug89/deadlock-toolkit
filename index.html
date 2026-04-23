@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deadlock Detection and Recovery Toolkit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <header class="mb-6 border-b border-slate-800 pb-5">
+      <p class="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-300">Operating Systems Lab</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-5xl">Deadlock Detection and Recovery Toolkit</h1>
+      <p class="mt-3 max-w-3xl text-slate-400">Visualize Resource Allocation Graphs, convert them to Wait-For Graphs, detect DFS cycles, and recover using process termination or resource preemption.</p>
+    </header>
+
+    <section class="grid gap-5 lg:grid-cols-[420px_1fr]">
+      <div class="space-y-5">
+        <section class="rounded-lg border border-slate-800 bg-slate-900/80 p-5 shadow-2xl shadow-cyan-950/20">
+          <div class="mb-4 flex items-center justify-between gap-3">
+            <h2 class="text-xl font-semibold">Input Panel</h2>
+            <button id="sampleBtn" class="rounded-md bg-cyan-500 px-3 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300">Load Sample Data</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <label class="block">
+              <span class="text-sm text-slate-300">Processes</span>
+              <input id="processCount" type="number" min="1" max="12" value="3" class="mt-1 w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 outline-none ring-cyan-400 transition focus:ring-2">
+            </label>
+            <label class="block">
+              <span class="text-sm text-slate-300">Resources</span>
+              <input id="resourceCount" type="number" min="1" max="12" value="3" class="mt-1 w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 outline-none ring-cyan-400 transition focus:ring-2">
+            </label>
+          </div>
+
+          <div id="errorBox" class="mt-4 hidden rounded-md border border-rose-500/40 bg-rose-950/50 px-3 py-2 text-sm text-rose-200"></div>
+
+          <div class="mt-5 space-y-5">
+            <div>
+              <h3 class="mb-2 font-semibold text-slate-200">Allocation Matrix</h3>
+              <div id="allocationMatrix" class="overflow-x-auto"></div>
+            </div>
+            <div>
+              <h3 class="mb-2 font-semibold text-slate-200">Request Matrix</h3>
+              <div id="requestMatrix" class="overflow-x-auto"></div>
+            </div>
+            <div>
+              <h3 class="mb-2 font-semibold text-slate-200">Available Vector</h3>
+              <div id="availableVector" class="overflow-x-auto"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
+          <h2 class="mb-4 text-xl font-semibold">Actions</h2>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <button id="detectBtn" class="rounded-md bg-emerald-500 px-4 py-3 font-bold text-emerald-950 transition hover:-translate-y-0.5 hover:bg-emerald-300">Detect Deadlock</button>
+            <button id="terminateBtn" class="rounded-md bg-rose-500 px-4 py-3 font-bold text-rose-950 transition hover:-translate-y-0.5 hover:bg-rose-300">Recover (Terminate)</button>
+            <button id="preemptBtn" class="rounded-md bg-amber-400 px-4 py-3 font-bold text-amber-950 transition hover:-translate-y-0.5 hover:bg-amber-200">Recover (Preempt)</button>
+            <button id="resetBtn" class="rounded-md border border-slate-700 px-4 py-3 font-bold text-slate-200 transition hover:-translate-y-0.5 hover:bg-slate-800">Reset</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="space-y-5">
+        <section class="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
+          <h2 class="text-xl font-semibold">Output Panel</h2>
+          <div id="statusBadge" class="mt-4 inline-flex rounded-full border border-slate-700 px-3 py-1 text-sm font-semibold text-slate-300">Ready</div>
+          <p id="messageText" class="mt-4 text-slate-300">Enter a system state or load sample data to begin.</p>
+          <div class="mt-4">
+            <h3 class="mb-2 font-semibold">Recovery Logs</h3>
+            <ol id="logList" class="space-y-2 text-sm text-slate-300"></ol>
+          </div>
+        </section>
+
+        <section class="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
+          <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-xl font-semibold">Visualization</h2>
+            <div class="flex gap-3 text-xs text-slate-400">
+              <span><span class="legend process"></span>Process</span>
+              <span><span class="legend resource"></span>Resource</span>
+              <span><span class="legend deadlock"></span>Deadlock</span>
+            </div>
+          </div>
+          <div class="relative min-h-[520px] overflow-hidden rounded-lg border border-slate-800 bg-slate-950">
+            <svg id="graphSvg" class="h-[520px] w-full"></svg>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "deadlock-rag-toolkit",
+  "version": "1.0.0",
+  "description": "Deadlock Detection and Recovery Toolkit",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
